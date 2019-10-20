@@ -1,0 +1,55 @@
+version: '3.4'
+services:
+#  Optional
+#  qrcode-generator-share:
+#    image: ${docker.share.image}:${alfresco.share.version}
+#    environment:
+#      REPO_HOST: qrcode-generator-acs
+#      REPO_PORT: 8080
+#    ports:
+#      - "${share.port}:8080"
+  qrcode-generator-acs:
+    image: alfresco-content-services-qrcode-generator:development
+    build:
+      dockerfile: ./Dockerfile
+      context: ../../../target
+    environment:
+      CATALINA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8888"
+    ports:
+      - "${acs.port}:8080"
+      - "${acs.debug.port}:8888"
+    volumes:
+      - qrcode-generator-acs-volume:/usr/local/tomcat/alf_data
+    depends_on:
+      - qrcode-generator-postgres
+  qrcode-generator-postgres:
+    image: postgres:9.6
+    environment:
+      POSTGRES_DB: alfresco
+      POSTGRES_USER: alfresco
+      POSTGRES_PASSWORD: alfresco
+    command: postgres -c max_connections=300 -c log_min_messages=LOG
+    ports:
+      - "${postgres.port}:5432"
+    volumes:
+      - qrcode-generator-db-volume:/var/lib/postgresql/data
+  qrcode-generator-ass:
+    image: alfresco/alfresco-search-services:1.2.0
+    environment:
+      SOLR_ALFRESCO_HOST: qrcode-generator-acs
+      SOLR_ALFRESCO_PORT: 8080
+      SOLR_SOLR_HOST: qrcode-generator-ass
+      SOLR_SOLR_PORT: 8983
+      SOLR_CREATE_ALFRESCO_DEFAULTS: alfresco,archive
+    ports:
+      - "8983:8983"
+    volumes:
+      - qrcode-generator-ass-volume:/opt/alfresco-search-services/contentstore
+      - qrcode-generator-ass-volume:/opt/alfresco-search-services/data
+volumes:
+  qrcode-generator-acs-volume:
+    external: true
+  qrcode-generator-db-volume:
+    external: true
+  qrcode-generator-ass-volume:
+    external: true

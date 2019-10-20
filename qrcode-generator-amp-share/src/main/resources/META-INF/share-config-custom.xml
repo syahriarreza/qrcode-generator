@@ -1,0 +1,24 @@
+<alfresco-config>
+
+    <!-- Config Custom Action Buttons -->
+    <config evaluator="string-compare" condition="DocLibActions">
+        <actions>
+            <!-- QR Code -->
+            <action id="custom-download-qrcode" icon="ic-qrcode" type="link" label="Display QR Code">
+                <param name="href">http://localhost:8080/alfresco/s/indesso/falcon/qrcodegenerator?nodeRef={node.nodeRef}&amp;attach=true</param>
+                <param name="target">_blank</param>
+                <!-- <evaluator>com.prosia.reza.evaluator.doclib.action.isShowCustomDownloadWatermark</evaluator> -->
+            </action>
+        </actions>
+
+        <actionGroups>
+            <actionGroup id="document-browse">
+                <action index="300" id="custom-download-qrcode"/>
+            </actionGroup>
+            <actionGroup id="document-details">
+                <action index="711" id="custom-download-qrcode" subgroup="71"/>
+            </actionGroup>
+        </actionGroups>
+    </config>
+    
+</alfresco-config>

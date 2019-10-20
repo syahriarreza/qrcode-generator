@@ -1,0 +1,9 @@
+<webscript>
+    <shortname>QR Code Generator Webscript</shortname>
+    <description>Document's Link QR Code Generator</description>
+    <url>/indesso/falcon/qrcodegenerator?nodeRef={nodeRef}&amp;attach={attach}</url>
+    <authentication runas="admin">none</authentication>
+    <transaction>required</transaction>
+    <format default="">argument</format>
+    <lifecycle>public_api</lifecycle>
+</webscript>
