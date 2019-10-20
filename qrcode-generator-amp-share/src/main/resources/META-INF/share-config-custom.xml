@@ -5,7 +5,7 @@
         <actions>
             <!-- QR Code -->
             <action id="custom-download-qrcode" icon="ic-qrcode" type="link" label="Display QR Code">
-                <param name="href">http://localhost:8080/alfresco/s/indesso/falcon/qrcodegenerator?nodeRef={node.nodeRef}&amp;attach=true</param>
+                <param name="href">http://localhost:8080/alfresco/s/indesso/falcon/qrcodegenerator?nodeRef={node.nodeRef}&amp;attach=false</param>
                 <param name="target">_blank</param>
                 <!-- <evaluator>com.prosia.reza.evaluator.doclib.action.isShowCustomDownloadWatermark</evaluator> -->
             </action>

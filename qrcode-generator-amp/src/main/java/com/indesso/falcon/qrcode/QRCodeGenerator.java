@@ -48,6 +48,7 @@ public class QRCodeGenerator extends StreamContent {
     private final String HOSTNAME = "localhost:8080";
     private final String PUBLIC_LINK = "http://"+HOSTNAME+"/alfresco/d/d/workspace/SpacesStore/";
     private final String TEMP_FOLDER_NAME = "temp";
+    private final String QR_CODE_ASPECT = "qrcodepublic:inUse";
 
     private PermissionService permissionService;
     private ContentService contentService;
@@ -102,6 +103,7 @@ public class QRCodeGenerator extends StreamContent {
             writer.putContent(new ByteArrayInputStream(qrCodeByte));
 
             //TODO: ngasi aspect ke nodeRef
+            
             
             processDownload(request, response, qrCodeNode, attach);
             

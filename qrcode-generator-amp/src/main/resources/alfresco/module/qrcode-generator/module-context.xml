@@ -26,7 +26,9 @@
 				Otherwise your custom models are not yet loaded when your service beans are instantiated and you
 				cannot for example register policies on them. -->
 	<import resource="classpath:alfresco/module/${project.artifactId}/context/bootstrap-context.xml" />
+	<import resource="classpath:alfresco/module/${project.artifactId}/context/qrcode-bootstrap-context.xml" />
     <import resource="classpath:alfresco/module/${project.artifactId}/context/service-context.xml" />
 	<import resource="classpath:alfresco/module/${project.artifactId}/context/webscript-context.xml" />
+	<import resource="classpath:alfresco/module/${project.artifactId}/context/qrcode-webscript-context.xml" />
 
 </beans>

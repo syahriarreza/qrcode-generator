@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="webscript.indesso.falcon.qrcodegenerator.get"
+		class="com.indesso.falcon.qrcode.QRCodeGenerator"
+		parent="webscript">
+		<property name="permissionService" ref="PermissionService" />
+		<property name="nodeService" ref="NodeService" />
+		<property name="mimetypeService" ref="MimetypeService" />
+		<property name="delegate" ref="webscript.content.streamer" />
+		<property name="repository" ref="repositoryHelper" />
+		<property name="FileFolderService" ref="FileFolderService" />
+		
+		<property name="contentService" ref="ContentService" />
+		<!-- <property name="authenticationService" ref="AuthenticationService" /> -->
+		<!-- <property name="siteService" ref="SiteService" /> -->
+		<!-- <property name="authorityService" ref="AuthorityService"/> -->
+	</bean>
+
+</beans>
