@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<model name="qrcodepublic:contentModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+<model name="qrcodepublic:qrcodepublicModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
 
     <!-- Optional meta-data about the model -->
     <description>QR Code Public - Model</description>
@@ -16,7 +16,7 @@
     </imports>
 
     <namespaces>
-        <namespace uri="qrcodepublic-indesso.com" prefix="qrcodepublic"/>
+        <namespace uri="qrcodepublic.custom.model" prefix="qrcodepublic"/>
     </namespaces>
 
     <aspects>

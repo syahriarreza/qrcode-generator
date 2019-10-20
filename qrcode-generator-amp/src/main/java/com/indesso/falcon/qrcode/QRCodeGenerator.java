@@ -2,23 +2,15 @@ package com.indesso.falcon.qrcode;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.Set;
 
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.model.Repository;
-import org.alfresco.repo.security.authentication.AuthenticationUtil;
-import org.alfresco.repo.security.permissions.AccessDeniedException;
 import org.alfresco.repo.web.scripts.content.StreamContent;
 import org.alfresco.service.cmr.repository.ContentService;
 import org.alfresco.service.cmr.repository.InvalidNodeRefException;
 import org.alfresco.service.cmr.repository.NodeRef;
-import org.alfresco.service.cmr.security.AccessPermission;
-import org.alfresco.service.cmr.security.AuthenticationService;
-import org.alfresco.service.cmr.security.AuthorityService;
 import org.alfresco.service.cmr.security.PermissionService;
-import org.alfresco.service.cmr.site.SiteInfo;
-import org.alfresco.service.cmr.site.SiteService;
 import org.alfresco.service.namespace.QName;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -27,6 +19,9 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.repository.ContentWriter;
 import org.apache.commons.io.FilenameUtils;
@@ -48,7 +43,8 @@ public class QRCodeGenerator extends StreamContent {
     private final String HOSTNAME = "localhost:8080";
     private final String PUBLIC_LINK = "http://"+HOSTNAME+"/alfresco/d/d/workspace/SpacesStore/";
     private final String TEMP_FOLDER_NAME = "temp";
-    private final String QR_CODE_ASPECT = "qrcodepublic:inUse";
+    private final String QR_CODE_MODEL = "qrcodepublic.custom.model";
+    private final String QR_CODE_ASPECT_NAME = "inUse";
 
     private PermissionService permissionService;
     private ContentService contentService;
@@ -67,9 +63,13 @@ public class QRCodeGenerator extends StreamContent {
             String docName = (String) this.nodeService.getProperty(nodeRef, ContentModel.PROP_NAME);
             String publicLink = PUBLIC_LINK+"/"+nodeRef.getId()+"/"+docName;
             
-            System.out.println("DSOUT> Generate QR Code | nodeRef: "+nodeRef.toString());
-            logger.debug("DLOG> Generate QR Code | nodeRef: "+nodeRef.toString());
+            System.out.println("DSOUT> Generate QR Code | "+nodeRef.toString()+" | "+docName);
+            logger.debug("DSOUT> Generate QR Code | "+nodeRef.toString()+" | "+docName);
             
+            //--Add Aspect qrcodepublic:inUse to indicate the content is publicly shared and add Guest permission
+            QName CUSTOM_ASPECT_QNAME = QName.createQName(QR_CODE_MODEL, QR_CODE_ASPECT_NAME);
+            Map<QName,Serializable> aspectValues = new HashMap<QName,Serializable>();
+            nodeService.addAspect(nodeRef, CUSTOM_ASPECT_QNAME, aspectValues);
             permissionService.setPermission(nodeRef, PermissionService.GUEST_AUTHORITY, PermissionService.CONSUMER, true);
             
             //--Generate QR Code
@@ -102,9 +102,6 @@ public class QRCodeGenerator extends StreamContent {
             writer.setMimetype(mimetypeService.guessMimetype(qrCodeName));
             writer.putContent(new ByteArrayInputStream(qrCodeByte));
 
-            //TODO: ngasi aspect ke nodeRef
-            
-            
             processDownload(request, response, qrCodeNode, attach);
             
         } catch (IOException | AlfrescoRuntimeException | InvalidNodeRefException excp) {

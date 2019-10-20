@@ -23,4 +23,9 @@
       </property>
    </bean>
 
+   <!-- Deploying Evaluators (Reza) -->
+   <bean id="com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic" class="com.indesso.falcon.evaluators.CheckIfNodeHasAspectEvaluator">
+      <property name="customAspect" value="qrcodepublic:inUse" />
+   </bean>
+
 </beans>

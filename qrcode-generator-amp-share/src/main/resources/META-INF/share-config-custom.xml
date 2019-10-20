@@ -4,19 +4,32 @@
     <config evaluator="string-compare" condition="DocLibActions">
         <actions>
             <!-- QR Code -->
-            <action id="custom-download-qrcode" icon="ic-qrcode" type="link" label="Display QR Code">
+            <action id="download-qrcodepublic" icon="ic-qrcode" type="link" label="Display QR Code">
                 <param name="href">http://localhost:8080/alfresco/s/indesso/falcon/qrcodegenerator?nodeRef={node.nodeRef}&amp;attach=false</param>
                 <param name="target">_blank</param>
-                <!-- <evaluator>com.prosia.reza.evaluator.doclib.action.isShowCustomDownloadWatermark</evaluator> -->
+                <permissions>
+                    <permission allow="true">Write</permission>
+                </permissions>
+            </action>
+            <action id="revoke-qrcodepublic" icon="ic-qrcode" type="javascript" label="Revoke QR Code">
+                <param name="action">revoke-qrcodepublic-action</param>
+                <param name="successMessage">QR Code successfully revoked.</param>
+                <param name="failureMessage">Unable to revoke QR Code !</param>
+                <permissions>
+                    <permission allow="true">Write</permission>
+                </permissions>
+                <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
             </action>
         </actions>
 
         <actionGroups>
             <actionGroup id="document-browse">
-                <action index="300" id="custom-download-qrcode"/>
+                <action index="300" id="download-qrcodepublic"/>
+                <action index="301" id="revoke-qrcodepublic"/>
             </actionGroup>
             <actionGroup id="document-details">
-                <action index="711" id="custom-download-qrcode" subgroup="71"/>
+                <action index="711" id="download-qrcodepublic" subgroup="71"/>
+                <action index="712" id="revoke-qrcodepublic" subgroup="71"/>
             </actionGroup>
         </actionGroups>
     </config>
