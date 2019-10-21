@@ -9,7 +9,7 @@
         <property name="scriptLocation">
             <bean class="org.alfresco.repo.jscript.ClasspathScriptLocation">
                 <constructor-arg>
-                    <value>alfresco/extension/action-scripts/revoke-qrcode-public.js</value>
+                    <value>alfresco/extension/scripts/revoke-qrcode-public.js</value>
                 </constructor-arg>
             </bean>
         </property>

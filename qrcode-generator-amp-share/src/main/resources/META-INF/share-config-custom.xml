@@ -12,8 +12,9 @@
                 </permissions>
             </action>
             <action id="revoke-qrcodepublic" icon="ic-qrcode" type="javascript" label="Revoke QR Code">
+                <param name="function">onActionSimpleRepoAction</param>
                 <param name="action">revoke-qrcodepublic-action</param>
-                <param name="successMessage">QR Code successfully revoked.</param>
+                <param name="successMessage">QR Code revoked successfully.</param>
                 <param name="failureMessage">Unable to revoke QR Code !</param>
                 <permissions>
                     <permission allow="true">Write</permission>
