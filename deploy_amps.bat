@@ -3,20 +3,29 @@ rem ### Script to copy amps and amps share to amps and amps_share folder ###
 set ALFRESCO_SERVICE=alfrescoTomcat
 set ALFRESCO_HOME=D:\AlfrescoCom51
 set WEBAPPS_HOME=%ALFRESCO_HOME%\tomcat\webapps
+set WEBAPPS_LIB_HOME=%WEBAPPS_HOME%\alfresco\WEB-INF\lib
 set APPLY_AMPS_BAT=apply_amps - Force NoWait.bat
+
+set AJCE_FOLDER=..\alfresco-java-code-executer\platform-jar
+set AMP_FOLDER=qrcode-generator-amp
+set AMP_SHARE_FOLDER=qrcode-generator-amp-share
+
 set ALF_WAR_ORI=%ALFRESCO_HOME%\tomcat\_WORKSPACE_\backups\alfresco.war-001.FRESH.bak
 set SHARE_WAR_ORI=%ALFRESCO_HOME%\tomcat\_WORKSPACE_\backups\share.war-001.FRESH.bak
+
 
 REM Stop Alfresco
 taskkill /F /FI "SERVICES eq %ALFRESCO_SERVICE%"
 
 REM Maven Install (Generate amps)
-call mvn clean install -DskipTests -f qrcode-generator-amp
-call mvn clean install -DskipTests -f qrcode-generator-amp-share
+call mvn clean install -DskipTests -f %AJCE_FOLDER%
+call mvn clean install -DskipTests -f %AMP_FOLDER%
+call mvn clean install -DskipTests -f %AMP_SHARE_FOLDER%
 
 REM Copy amp
-xcopy /Y "qrcode-generator-amp\target\*.amp" "%ALFRESCO_HOME%\amps"
-xcopy /Y "qrcode-generator-amp-share\target\*.amp" "%ALFRESCO_HOME%\amps_share"
+xcopy /Y "%AJCE_FOLDER%\target\*.amp" "%ALFRESCO_HOME%\amps"
+xcopy /Y "%AMP_FOLDER%\target\*.amp" "%ALFRESCO_HOME%\amps"
+xcopy /Y "%AMP_SHARE_FOLDER%\target\*.amp" "%ALFRESCO_HOME%\amps_share"
 
 REM Refresh alfresco.war and share.war
 del /Q "%WEBAPPS_HOME%\alfresco.war"
