@@ -8,14 +8,14 @@
 	<bean id="webscript.indesso.falcon.qrcodegenerator.get"
 		class="com.indesso.falcon.qrcode.QRCodeGenerator"
 		parent="webscript">
-		<property name="permissionService" ref="PermissionService" />
-		<property name="nodeService" ref="NodeService" />
-		<property name="mimetypeService" ref="MimetypeService" />
 		<property name="delegate" ref="webscript.content.streamer" />
 		<property name="repository" ref="repositoryHelper" />
-		<property name="FileFolderService" ref="FileFolderService" />
-		
+
+		<property name="nodeService" ref="NodeService" />
 		<property name="contentService" ref="ContentService" />
+		<property name="permissionService" ref="PermissionService" />
+		<property name="mimetypeService" ref="MimetypeService" />
+		<property name="FileFolderService" ref="FileFolderService" />
 		<!-- <property name="authenticationService" ref="AuthenticationService" /> -->
 		<!-- <property name="siteService" ref="SiteService" /> -->
 		<!-- <property name="authorityService" ref="AuthorityService"/> -->

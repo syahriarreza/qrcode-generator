@@ -23,6 +23,17 @@
         <aspect name="qrcodepublic:inUse">
 			<title>QR Code Public is In Use</title>
 		</aspect>
+
+        <aspect name="qrcodepublic:props">
+			<title>QR Code Properties</title>
+            <description>Properties for Document that QR Code is generated</description>
+            <properties>
+                <property name="qrcodepublic:publicTitle">
+                    <title>QR Code Title</title>
+                    <type>d:text</type>
+                </property>
+            </properties>
+		</aspect>
     </aspects>
 
 </model>

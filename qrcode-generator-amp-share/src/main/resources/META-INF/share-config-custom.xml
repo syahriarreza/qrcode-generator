@@ -35,4 +35,27 @@
         </actionGroups>
     </config>
     
+    <!-- Display Custom Aspects -->
+    <config evaluator="string-compare" condition="DocumentLibrary">
+        <aspects>
+            <visible>
+                <aspect name="qrcodepublic:props" />
+            </visible>
+        </aspects>
+    </config>
+
+    <!-- ASPECT - Custom Download Watermark -->
+    <config evaluator="aspect" condition="qrcodepublic:props">
+        <forms>
+            <form>
+                <field-visibility>
+                    <show id="qrcodepublic:publicTitle" />
+                </field-visibility>
+                <appearance>
+                    <field id="qrcodepublic:publicTitle" label="QR Code Title"/>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+
 </alfresco-config>
