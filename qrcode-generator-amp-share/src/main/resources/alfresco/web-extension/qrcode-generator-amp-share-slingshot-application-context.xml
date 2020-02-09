@@ -23,7 +23,16 @@
       </property>
    </bean>
 
-   <!-- Deploying Evaluators (Reza) -->
+   <!-- # Define Evaluators # -->
+   <!-- Display QR Code Action -->
+   <bean id="com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeDocument" class="com.indesso.falcon.evaluators.CheckIfParentHasAspectEvaluator">
+      <property name="customAspect" value="qrcodepublic:showQRCodeAction" />
+   </bean>
+   <bean id="com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeFolder" class="com.indesso.falcon.evaluators.CheckIfNodeHasAspectEvaluator">
+      <property name="customAspect" value="qrcodepublic:showQRCodeAction" />
+   </bean>
+
+   <!-- Revoke QR Code Action -->
    <bean id="com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic" class="com.indesso.falcon.evaluators.CheckIfNodeHasAspectEvaluator">
       <property name="customAspect" value="qrcodepublic:inUse" />
    </bean>

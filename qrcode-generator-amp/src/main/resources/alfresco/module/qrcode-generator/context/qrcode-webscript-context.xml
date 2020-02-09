@@ -21,6 +21,10 @@
 		<!-- <property name="authorityService" ref="AuthorityService"/> -->
 
 		<!-- <property name="serviceRegistry" ref="ServiceRegistry"/> -->
+
+		<!-- Custom Params -->
+		<property name="hostname" value="localhost:8080" />
+		<property name="publicUserName" value="public" />
 	</bean>
 
 </beans>

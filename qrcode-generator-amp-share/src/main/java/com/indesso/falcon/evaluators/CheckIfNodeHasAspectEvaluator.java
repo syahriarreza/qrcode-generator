@@ -16,8 +16,7 @@ public class CheckIfNodeHasAspectEvaluator extends BaseEvaluator {
         try {
             JSONObject node = (JSONObject) jsonObject.get("node");
             JSONArray nodeAspects = (JSONArray) node.get("aspects");
-            boolean isContainer = (boolean) node.get("isContainer");
-            if (!isContainer && nodeAspects != null) {
+            if (nodeAspects != null) {
                 return nodeAspects.contains(customAspect);
             } else {
                 return false;

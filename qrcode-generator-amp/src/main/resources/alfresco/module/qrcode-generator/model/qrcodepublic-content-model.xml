@@ -20,10 +20,20 @@
     </namespaces>
 
     <aspects>
-        <aspect name="qrcodepublic:inUse">
-			<title>QR Code Public is In Use</title>
+        <!-- Add this aspect to show QR Code Action -->
+        <aspect name="qrcodepublic:showQRCodeAction">
+			<title>Show QR Code Action</title>
+            <description>Aspect to show QR Code Action</description>
+            <properties>
+                <property name="qrcodepublic:isShowDisplayQRCode">
+                    <title>QR Code</title>
+                    <type>d:text</type>
+                    <default>Yes</default>
+                </property>
+            </properties>
 		</aspect>
 
+        <!-- Add this Aspect before generating QR Code in order to set the QR Code title -->
         <aspect name="qrcodepublic:props">
 			<title>QR Code Properties</title>
             <description>Properties for Document that QR Code is generated</description>
@@ -33,6 +43,11 @@
                     <type>d:text</type>
                 </property>
             </properties>
+		</aspect>
+
+        <!-- Aspect to flag the document that QR Code has been generated before -->
+        <aspect name="qrcodepublic:inUse">
+			<title>QR Code Public is In Use</title>
 		</aspect>
     </aspects>
 

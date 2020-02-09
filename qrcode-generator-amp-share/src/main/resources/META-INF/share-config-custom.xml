@@ -19,18 +19,41 @@
                 <permissions>
                     <permission allow="true">Write</permission>
                 </permissions>
-                <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
             </action>
         </actions>
 
         <actionGroups>
             <actionGroup id="document-browse">
-                <action index="300" id="download-qrcodepublic"/>
-                <action index="301" id="revoke-qrcodepublic"/>
+                <action index="300" id="download-qrcodepublic" appendEvaluators="true">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeDocument</evaluator>
+                </action>
+                <action index="301" id="revoke-qrcodepublic" appendEvaluators="true">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
+                </action>
             </actionGroup>
             <actionGroup id="document-details">
-                <action index="711" id="download-qrcodepublic" subgroup="71"/>
-                <action index="712" id="revoke-qrcodepublic" subgroup="71"/>
+                <action index="711" id="download-qrcodepublic" subgroup="71" appendEvaluators="true">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeDocument</evaluator>
+                </action>
+                <action index="712" id="revoke-qrcodepublic" subgroup="71" appendEvaluators="true">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
+                </action>
+            </actionGroup>
+            <actionGroup id="folder-browse">
+                <action index="400" id="download-qrcodepublic">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeFolder</evaluator>
+                </action>
+                <action index="401" id="revoke-qrcodepublic">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
+                </action>
+            </actionGroup>
+            <actionGroup id="folder-details">
+                <action index="711" id="download-qrcodepublic" subgroup="71">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeFolder</evaluator>
+                </action>
+                <action index="712" id="revoke-qrcodepublic" subgroup="71">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
+                </action>
             </actionGroup>
         </actionGroups>
     </config>
@@ -40,11 +63,12 @@
         <aspects>
             <visible>
                 <aspect name="qrcodepublic:props" />
+                <aspect name="qrcodepublic:showQRCodeAction" />
             </visible>
         </aspects>
     </config>
 
-    <!-- ASPECT - Custom Download Watermark -->
+    <!-- ASPECT - Custom Aspect UI -->
     <config evaluator="aspect" condition="qrcodepublic:props">
         <forms>
             <form>
@@ -53,6 +77,18 @@
                 </field-visibility>
                 <appearance>
                     <field id="qrcodepublic:publicTitle" label="QR Code Title"/>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+    <config evaluator="aspect" condition="qrcodepublic:showQRCodeAction">
+        <forms>
+            <form>
+                <field-visibility>
+                    <show id="qrcodepublic:isShowDisplayQRCode" />
+                </field-visibility>
+                <appearance>
+                    <field id="qrcodepublic:isShowDisplayQRCode" label="QR Code Generated" read-only="true"/>
                 </appearance>
             </form>
         </forms>

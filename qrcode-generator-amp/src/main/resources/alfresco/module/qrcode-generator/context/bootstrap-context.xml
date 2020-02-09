@@ -23,7 +23,7 @@
         </property>
     </bean>
 
-    <bean id="com.indesso.falcon.sampleprocess.workflowBootstrap" parent="workflowDeployer">
+    <!-- <bean id="com.indesso.falcon.sampleprocess.workflowBootstrap" parent="workflowDeployer">
         <property name="workflowDefinitions">
             <list>
                 <props>
@@ -33,5 +33,5 @@
                 </props>
             </list>
         </property>
-    </bean>
+    </bean> -->
 </beans>

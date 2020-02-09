@@ -27,9 +27,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import javax.imageio.ImageIO;
 import org.alfresco.service.cmr.model.FileFolderService;
+import org.alfresco.service.cmr.model.FileInfo;
+import org.alfresco.service.cmr.model.FileNotFoundException;
 import org.alfresco.service.cmr.repository.ContentWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -48,8 +52,8 @@ public class QRCodeGenerator extends StreamContent {
 
 	private static final Logger logger = LoggerFactory.getLogger(QRCodeGenerator.class);
 
-	private final String HOSTNAME = "localhost:8080";
-	private final String PUBLIC_LINK = "http://" + HOSTNAME + "/alfresco/d/d/workspace/SpacesStore/";
+	//private final String HOSTNAME = "localhost:8080";
+	//private final String USER_PUBLIC = "public";
 	private final String TEMP_FOLDER_NAME = "temp";
 	private final String QR_CODE_MODEL_URI = "qrcodepublic.custom.model";
 	private final String QR_CODE_ASPECT_INUSE = "inUse"; //--invisible aspect
@@ -64,6 +68,11 @@ public class QRCodeGenerator extends StreamContent {
 	private ContentService contentService;
 	private Repository repository;
 	private FileFolderService fileFolderService;
+	
+	private String PUBLIC_LINK = "";
+	private String PUBLIC_FOLDER_LINK = "";
+	private String hostname;
+	private String publicUserName;
 
 	/* (non-Javadoc)
   * @see org.springframework.extensions.webscripts.WebScript#execute(org.springframework.extensions.webscripts.WebScriptRequest, org.springframework.extensions.webscripts.WebScriptResponse)
@@ -71,20 +80,36 @@ public class QRCodeGenerator extends StreamContent {
 	@Override
 	public void execute(final WebScriptRequest request, final WebScriptResponse response) throws IOException {
 		try {
+			PUBLIC_LINK = "http://" + hostname + "/alfresco/d/d/workspace/SpacesStore/";
+			PUBLIC_FOLDER_LINK = "http://" + hostname + "/share/page/repository#filter=path|";
+			
 			final NodeRef nodeRef = getParameterAsNodeRef(request, "nodeRef");
 			final boolean attach = Boolean.valueOf(request.getParameter("attach"));
 
 			String docName = this.nodeService.getProperty(nodeRef, ContentModel.PROP_NAME).toString();
 			String publicLink = PUBLIC_LINK + "/" + nodeRef.getId() + "/" + docName;
+			if (fileFolderService.getFileInfo(nodeRef).isFolder()) {
+				String path = "";
+				List<FileInfo> fileInfos = fileFolderService.getNamePath(null, nodeRef);
+				for (FileInfo fileInfo : fileInfos) {
+					if (fileInfo.isFolder() && !fileInfo.getName().equalsIgnoreCase("company home")) {
+						path += ("/" + fileInfo.getName());
+					}
+				}
+				publicLink = PUBLIC_FOLDER_LINK + path + "|&page=1";
+			}
 
 			System.out.println("JD> Generate QR Code | " + nodeRef.toString() + " | " + docName);
-			logger.debug("JD> Generate QR Code | " + nodeRef.toString() + " | " + docName);
 
 			//--Add Aspect qrcodepublic:inUse to indicate the content is publicly shared and add Guest permission
 			QName aspectInUse = QName.createQName(QR_CODE_MODEL_URI, QR_CODE_ASPECT_INUSE);
 			Map<QName, Serializable> aspectValues = new HashMap<QName, Serializable>();
 			nodeService.addAspect(nodeRef, aspectInUse, aspectValues);
-			permissionService.setPermission(nodeRef, PermissionService.GUEST_AUTHORITY, PermissionService.CONSUMER, true);
+			if (fileFolderService.getFileInfo(nodeRef).isFolder()) {
+				permissionService.setPermission(nodeRef, publicUserName, PermissionService.CONSUMER, true);
+			} else {
+				permissionService.setPermission(nodeRef, PermissionService.GUEST_AUTHORITY, PermissionService.CONSUMER, true);
+			}
 
 			//--Define QR Code Title
 			String qrCodeTitle = "";
@@ -131,6 +156,9 @@ public class QRCodeGenerator extends StreamContent {
 		} catch (IOException | AlfrescoRuntimeException | InvalidNodeRefException excp) {
 			logger.error("Exception occurred while downloading content", excp);
 			throw new WebScriptException(Status.STATUS_INTERNAL_SERVER_ERROR, excp.getMessage(), excp);
+		} catch (FileNotFoundException ex) {
+			logger.error("FileNotFoundException", ex);
+			throw new WebScriptException(Status.STATUS_INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
 		}
 	}
 
@@ -229,39 +257,30 @@ public class QRCodeGenerator extends StreamContent {
 		return nodeRef;
 	}
 
-	/**
-	 * Sets the content service.
-	 *
-	 * @param contentService the content service
-	 */
+	// ### Setters ###
+	
 	public void setContentService(final ContentService contentService) {
 		this.contentService = contentService;
 	}
 
-	/**
-	 * Sets the repository.
-	 *
-	 * @param repository the repository
-	 */
 	public void setRepository(Repository repository) {
 		this.repository = repository;
 	}
 
-	/**
-	 * Sets the fileFolder service.
-	 *
-	 * @param fileFolderService the fileFolder Service
-	 */
 	public void setFileFolderService(FileFolderService fileFolderService) {
 		this.fileFolderService = fileFolderService;
 	}
 
-	/**
-	 * Sets the permission service.
-	 *
-	 * @param permissionService the permission Service
-	 */
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
+
+	public void setHostname(String hostname) {
+		this.hostname = hostname;
+	}
+
+	public void setPublicUserName(String publicUserName) {
+		this.publicUserName = publicUserName;
+	}
+	
 }
