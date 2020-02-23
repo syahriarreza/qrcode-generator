@@ -5,9 +5,11 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<!-- This bean id indicates that the Webscript Description file is in: templates\webscript\indesso\falcon\qrcodegenerator.get -->
 	<bean id="webscript.indesso.falcon.qrcodegenerator.get"
 		class="com.indesso.falcon.qrcode.QRCodeGenerator"
 		parent="webscript">
+
 		<property name="delegate" ref="webscript.content.streamer" />
 		<property name="repository" ref="repositoryHelper" />
 
@@ -19,12 +21,21 @@
 		<!-- <property name="authenticationService" ref="AuthenticationService" /> -->
 		<!-- <property name="siteService" ref="SiteService" /> -->
 		<!-- <property name="authorityService" ref="AuthorityService"/> -->
-
 		<!-- <property name="serviceRegistry" ref="ServiceRegistry"/> -->
 
 		<!-- Custom Params -->
-		<property name="hostname" value="localhost:8080" />
+		<property name="hostname" value="http://localhost:8080" />
 		<property name="publicUserName" value="public" />
+	</bean>
+
+	<bean id="webscript.indesso.falcon.browserFolder.get"
+		class="com.indesso.falcon.qrcode.GetTicket"
+		parent="webscript">
+		
+		<!-- Custom Params -->
+		<property name="hostname" value="http://localhost:8080" />
+		<property name="username" value="public" />
+		<property name="password" value="PuBL1c!nde55o" />
 	</bean>
 
 </beans>

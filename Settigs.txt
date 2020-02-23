@@ -1,0 +1,14 @@
+# Hostname #
+
+File: qrcode-generator\qrcode-generator-amp\src\main\resources\alfresco\module\qrcode-generator\context\qrcode-webscript-context.xml
+<property name="hostname" value="http://localhost:8080" />
+
+# Public Username and Password #
+
+File: qrcode-generator\qrcode-generator-amp\src\main\resources\alfresco\module\qrcode-generator\context\qrcode-webscript-context.xml
+<property name="publicUserName" value="public" />
+<property name="username" value="public" />
+<property name="password" value="PuBL1c!nde55o" />
+
+File: qrcode-generator\qrcode-generator-amp\src\main\resources\alfresco\extension\scripts\revoke-qrcode-public.js
+var PUBLIC_USERNAME = "public";

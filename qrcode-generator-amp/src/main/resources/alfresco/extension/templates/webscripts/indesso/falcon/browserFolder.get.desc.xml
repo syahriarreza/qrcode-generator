@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Browser Folder</shortname>
+  <description>Webscript for getting list of document and folder</description>
+  <url>/indesso/falcon/browseFolder?nodeRef={nodeRef}</url>
+  <format default="html"/>
+  <authentication runas="admin">none</authentication>
+</webscript>

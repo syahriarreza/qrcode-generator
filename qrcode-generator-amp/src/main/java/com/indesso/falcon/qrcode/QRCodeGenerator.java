@@ -80,26 +80,28 @@ public class QRCodeGenerator extends StreamContent {
 	@Override
 	public void execute(final WebScriptRequest request, final WebScriptResponse response) throws IOException {
 		try {
-			PUBLIC_LINK = "http://" + hostname + "/alfresco/d/d/workspace/SpacesStore/";
-			PUBLIC_FOLDER_LINK = "http://" + hostname + "/share/page/repository#filter=path|";
+			PUBLIC_LINK = hostname + "/alfresco/d/d/workspace/SpacesStore/";
+//			PUBLIC_FOLDER_LINK = hostname + "/share/page/repository#filter=path|";
+			PUBLIC_FOLDER_LINK = hostname + "/alfresco/s/indesso/falcon/browseFolder?nodeRef=";
 			
 			final NodeRef nodeRef = getParameterAsNodeRef(request, "nodeRef");
 			final boolean attach = Boolean.valueOf(request.getParameter("attach"));
 
-			String docName = this.nodeService.getProperty(nodeRef, ContentModel.PROP_NAME).toString();
-			String publicLink = PUBLIC_LINK + "/" + nodeRef.getId() + "/" + docName;
+			String nodeName = this.nodeService.getProperty(nodeRef, ContentModel.PROP_NAME).toString();
+			String publicLink = PUBLIC_LINK + "/" + nodeRef.getId() + "/" + nodeName;
 			if (fileFolderService.getFileInfo(nodeRef).isFolder()) {
-				String path = "";
-				List<FileInfo> fileInfos = fileFolderService.getNamePath(null, nodeRef);
-				for (FileInfo fileInfo : fileInfos) {
-					if (fileInfo.isFolder() && !fileInfo.getName().equalsIgnoreCase("company home")) {
-						path += ("/" + fileInfo.getName());
-					}
-				}
-				publicLink = PUBLIC_FOLDER_LINK + path + "|&page=1";
+				//webscript: http://localhost:8080/alfresco/s/indesso/falcon/browseFolder?nodeRef={nodeRef}
+//				String path = "";
+//				List<FileInfo> fileInfos = fileFolderService.getNamePath(null, nodeRef);
+//				for (FileInfo fileInfo : fileInfos) {
+//					if (fileInfo.isFolder() && !fileInfo.getName().equalsIgnoreCase("company home")) {
+//						path += ("/" + fileInfo.getName());
+//					}
+//				}
+				publicLink = PUBLIC_FOLDER_LINK + nodeRef.toString();
 			}
 
-			System.out.println("JD> Generate QR Code | " + nodeRef.toString() + " | " + docName);
+			System.out.println("JD> Generate QR Code | " + nodeRef.toString() + " | " + nodeName);
 
 			//--Add Aspect qrcodepublic:inUse to indicate the content is publicly shared and add Guest permission
 			QName aspectInUse = QName.createQName(QR_CODE_MODEL_URI, QR_CODE_ASPECT_INUSE);
@@ -139,10 +141,13 @@ public class QRCodeGenerator extends StreamContent {
 			}
 
 			//--Create QR Code Node
-			String qrCodeName = "QR-" + FilenameUtils.removeExtension(docName) + ".png";
+			String qrCodeName = "QR-" + FilenameUtils.removeExtension(nodeName) + ".png";
 			NodeRef qrCodeNode = fileFolderService.searchSimple(tempFolderNode, qrCodeName);
 			if (qrCodeNode != null && nodeService.exists(qrCodeNode)) {
-				fileFolderService.delete(qrCodeNode);
+				//--Permanently delete node, without goint to trash bin
+				nodeService.addAspect(qrCodeNode, ContentModel.ASPECT_TEMPORARY, null);
+				nodeService.deleteNode(qrCodeNode);
+//				fileFolderService.delete(qrCodeNode); //--delete to trash bin
 			}
 			qrCodeNode = fileFolderService.create(tempFolderNode, qrCodeName, ContentModel.TYPE_CONTENT).getNodeRef();
 
@@ -156,9 +161,6 @@ public class QRCodeGenerator extends StreamContent {
 		} catch (IOException | AlfrescoRuntimeException | InvalidNodeRefException excp) {
 			logger.error("Exception occurred while downloading content", excp);
 			throw new WebScriptException(Status.STATUS_INTERNAL_SERVER_ERROR, excp.getMessage(), excp);
-		} catch (FileNotFoundException ex) {
-			logger.error("FileNotFoundException", ex);
-			throw new WebScriptException(Status.STATUS_INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
 		}
 	}
 
