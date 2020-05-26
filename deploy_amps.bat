@@ -10,8 +10,8 @@ set AJCE_FOLDER=..\alfresco-java-code-executer\platform-jar
 set AMP_FOLDER=qrcode-generator-amp
 set AMP_SHARE_FOLDER=qrcode-generator-amp-share
 
-set ALF_WAR_ORI=%ALFRESCO_HOME%\tomcat\_WORKSPACE_\backups\alfresco.war-001.FRESH.bak
-set SHARE_WAR_ORI=%ALFRESCO_HOME%\tomcat\_WORKSPACE_\backups\share.war-001.FRESH.bak
+set ALF_WAR_ORI=%ALFRESCO_HOME%\tomcat\_WORKSPACE_\backups\war\alfresco.war-001.FRESH.bak
+set SHARE_WAR_ORI=%ALFRESCO_HOME%\tomcat\_WORKSPACE_\backups\war\share.war-001.FRESH.bak
 
 
 REM Stop Alfresco
