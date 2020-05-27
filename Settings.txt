@@ -3,6 +3,10 @@
 File: qrcode-generator\qrcode-generator-amp\src\main\resources\alfresco\module\qrcode-generator\context\qrcode-webscript-context.xml
 <property name="hostname" value="http://localhost:8080" />
 
+File: qrcode-generator\qrcode-generator-amp-share\src\main\resources\META-INF\share-config-custom.xml
+<param name="href">http://localhost:8080/alfresco/s/indesso/falcon/qrcodegenerator?nodeRef={node.nodeRef}&amp;attach=false</param>
+
+
 # Public Username and Password #
 
 File: qrcode-generator\qrcode-generator-amp\src\main\resources\alfresco\module\qrcode-generator\context\qrcode-webscript-context.xml
