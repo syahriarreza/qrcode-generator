@@ -22,7 +22,7 @@
     <aspects>
         <!-- Add this aspect to show QR Code Action -->
         <aspect name="qrcodepublic:showQRCodeAction">
-			<title>Show QR Code Action</title>
+			<title>QR Code Enable</title>
             <description>Aspect to show QR Code Action</description>
             <properties>
                 <property name="qrcodepublic:isShowDisplayQRCode">
@@ -35,7 +35,7 @@
 
         <!-- Add this Aspect before generating QR Code in order to set the QR Code title -->
         <aspect name="qrcodepublic:props">
-			<title>QR Code Properties</title>
+			<title>QR Code Settings</title>
             <description>Properties for Document that QR Code is generated</description>
             <properties>
                 <property name="qrcodepublic:publicTitle">
