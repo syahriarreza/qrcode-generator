@@ -1,0 +1,97 @@
+<alfresco-config>
+
+    <!-- Config Custom Action Buttons -->
+    <config evaluator="string-compare" condition="DocLibActions">
+        <actions>
+            <!-- QR Code -->
+            <action id="download-qrcodepublic" icon="ic-qrcode" type="link" label="Display QR Code">
+                <param name="href">http://alfrescodev.indesso.com:8080/alfresco/s/indesso/falcon/qrcodegenerator?nodeRef={node.nodeRef}&amp;attach=false</param>
+                <param name="target">_blank</param>
+                <permissions>
+                    <permission allow="true">Write</permission>
+                </permissions>
+            </action>
+            <action id="revoke-qrcodepublic" icon="ic-qrcode" type="javascript" label="Revoke QR Code">
+                <param name="function">onActionSimpleRepoAction</param>
+                <param name="action">revoke-qrcodepublic-action</param>
+                <param name="successMessage">QR Code revoked successfully.</param>
+                <param name="failureMessage">Unable to revoke QR Code !</param>
+                <permissions>
+                    <permission allow="true">Write</permission>
+                </permissions>
+            </action>
+        </actions>
+
+        <actionGroups>
+            <actionGroup id="document-browse">
+                <action index="300" id="download-qrcodepublic" appendEvaluators="true">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeDocument</evaluator>
+                </action>
+                <action index="301" id="revoke-qrcodepublic" appendEvaluators="true">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
+                </action>
+            </actionGroup>
+            <actionGroup id="document-details">
+                <action index="711" id="download-qrcodepublic" subgroup="71" appendEvaluators="true">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeDocument</evaluator>
+                </action>
+                <action index="712" id="revoke-qrcodepublic" subgroup="71" appendEvaluators="true">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
+                </action>
+            </actionGroup>
+            <actionGroup id="folder-browse">
+                <action index="400" id="download-qrcodepublic">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeFolder</evaluator>
+                </action>
+                <action index="401" id="revoke-qrcodepublic">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
+                </action>
+            </actionGroup>
+            <actionGroup id="folder-details">
+                <action index="711" id="download-qrcodepublic" subgroup="71">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowDisplayQRCodeFolder</evaluator>
+                </action>
+                <action index="712" id="revoke-qrcodepublic" subgroup="71">
+                    <evaluator>com.indesso.falcon.evaluator.doclib.action.isShowRevokeQRCodePublic</evaluator>
+                </action>
+            </actionGroup>
+        </actionGroups>
+    </config>
+    
+    <!-- Display Custom Aspects -->
+    <config evaluator="string-compare" condition="DocumentLibrary">
+        <aspects>
+            <visible>
+                <aspect name="qrcodepublic:props" />
+                <aspect name="qrcodepublic:showQRCodeAction" />
+            </visible>
+        </aspects>
+    </config>
+
+    <!-- ASPECT - Custom Aspect UI -->
+    <config evaluator="aspect" condition="qrcodepublic:props">
+        <forms>
+            <form>
+                <field-visibility>
+                    <show id="qrcodepublic:publicTitle" />
+                </field-visibility>
+                <appearance>
+                    <field id="qrcodepublic:publicTitle" label="QR Code Title"/>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+    <config evaluator="aspect" condition="qrcodepublic:showQRCodeAction">
+        <forms>
+            <form>
+                <field-visibility>
+                    <show id="qrcodepublic:isShowDisplayQRCode" />
+                </field-visibility>
+                <appearance>
+                    <field id="qrcodepublic:isShowDisplayQRCode" label="QR Code Generated" read-only="true"/>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+
+</alfresco-config>

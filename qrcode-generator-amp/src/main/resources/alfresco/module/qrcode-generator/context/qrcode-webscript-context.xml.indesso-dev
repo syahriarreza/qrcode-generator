@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- This bean id indicates that the Webscript Description file is in: templates\webscript\indesso\falcon\qrcodegenerator.get -->
+	<bean id="webscript.indesso.falcon.qrcodegenerator.get"
+		class="com.indesso.falcon.qrcode.QRCodeGenerator"
+		parent="webscript">
+
+		<property name="delegate" ref="webscript.content.streamer" />
+		<property name="repository" ref="repositoryHelper" />
+
+		<property name="nodeService" ref="NodeService" />
+		<property name="contentService" ref="ContentService" />
+		<property name="permissionService" ref="PermissionService" />
+		<property name="mimetypeService" ref="MimetypeService" />
+		<property name="FileFolderService" ref="FileFolderService" />
+		<!-- <property name="authenticationService" ref="AuthenticationService" /> -->
+		<!-- <property name="siteService" ref="SiteService" /> -->
+		<!-- <property name="authorityService" ref="AuthorityService"/> -->
+		<!-- <property name="serviceRegistry" ref="ServiceRegistry"/> -->
+
+		<!-- Custom Params -->
+		<property name="hostname" value="http://alfrescodev.indesso.com:8080" />
+		<property name="publicUserName" value="public" />
+	</bean>
+
+	<bean id="webscript.indesso.falcon.browserFolder.get"
+		class="com.indesso.falcon.qrcode.GetTicket"
+		parent="webscript">
+		
+		<!-- Custom Params -->
+		<property name="hostname" value="http://alfrescodev.indesso.com:8080" />
+		<property name="username" value="public" />
+		<property name="password" value="PuBL1c!nde55o" />
+	</bean>
+
+</beans>
