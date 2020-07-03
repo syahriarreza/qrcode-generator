@@ -21,11 +21,13 @@ REM Maven Install (Generate amps)
 call mvn clean install -DskipTests -f %AJCE_FOLDER%
 call mvn clean install -DskipTests -f %AMP_FOLDER%
 call mvn clean install -DskipTests -f %AMP_SHARE_FOLDER%
+call mvn clean install -DskipTests -f "D:\AlfrescoCom51\tomcat\_WORKSPACE_\Git\falcon-assets-amp-share"
 
 REM Copy amp
 xcopy /Y "%AJCE_FOLDER%\target\*.amp" "%ALFRESCO_HOME%\amps"
 xcopy /Y "%AMP_FOLDER%\target\*.amp" "%ALFRESCO_HOME%\amps"
 xcopy /Y "%AMP_SHARE_FOLDER%\target\*.amp" "%ALFRESCO_HOME%\amps_share"
+xcopy /Y "D:\AlfrescoCom51\tomcat\_WORKSPACE_\Git\falcon-assets-amp-share\target\*.amp" "%ALFRESCO_HOME%\amps_share"
 
 REM Refresh alfresco.war and share.war
 del /Q "%WEBAPPS_HOME%\alfresco.war"

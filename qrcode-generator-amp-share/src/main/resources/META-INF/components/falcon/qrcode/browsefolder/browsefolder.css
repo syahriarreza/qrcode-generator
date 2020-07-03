@@ -1,0 +1,21 @@
+@media screen and (min-width: 400px) and (max-width: 900px), (max-width: 1279px) {
+   body {
+      font-size: 20px !important;
+   }
+
+   a {
+      font-size: 20px !important;
+   }
+}
+
+body {
+   /* background: rgb(217,231,255);
+   background: linear-gradient(138deg, rgba(217,231,255,1) 0%, rgba(227,255,231,1) 100%); */
+   background: rgb(227,255,231);
+   background: linear-gradient(138deg, rgba(227,255,231,1) 0%, rgba(217,231,255,1) 100%);
+}
+
+.k-grid td.k-state-selected:hover, .k-grid tr:hover {
+   color: #fff;
+   background-color: #3bbc0075;
+}
