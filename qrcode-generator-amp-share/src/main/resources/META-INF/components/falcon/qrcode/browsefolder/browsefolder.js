@@ -22,6 +22,9 @@ $(document).ready(function () {
             pageSizes: true,
             buttonCount: 5
         },
+        noRecords: {
+            template: "<div style='text-align: center; width: 100%; color: red;'>This folder is empty.</div>"
+        },
         columns: [
             {
                 field: "Name",
@@ -35,7 +38,7 @@ $(document).ready(function () {
             },
             {
                 field: "Type",
-                width: "18%",
+                width: "20%",
                 filterable: {
                     ui: typeFilter,
                     operators: {
